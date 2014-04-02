@@ -6,6 +6,12 @@ class Params
   # 2. post body
   # 3. route params
   def initialize(req, route_params = {})
+    #@params = parse_www_encoded_form(???)
+
+  end
+
+  def parse_www_encoded_form(stuff)
+    #decode_www_form(stuff)
   end
 
   def [](key)
