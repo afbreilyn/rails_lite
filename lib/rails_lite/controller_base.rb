@@ -13,6 +13,8 @@ class ControllerBase
     @res = res
 
     @already_built_response = false
+
+    @params = Params.new(req, route_params)
   end
 
   # populate the response with content
@@ -25,6 +27,7 @@ class ControllerBase
     @res.content_type = type
 
     @already_built_response = true
+    nil
   end
 
   # helper method to alias @already_built_response
@@ -54,13 +57,25 @@ class ControllerBase
 
     render_content(content, "text/html")
     @already_built_response = true
+
+    # template_fname=
+    #   File.join("views", self.class.name.underscore, "#{template_name}.html.erb")
+    # render_content(
+    #   ERB.new(File.read(template_fname)).result(binding),
+    #   "text/html"
+    # )
   end
 
   # method exposing a `Session` object
   def session
+    @session || Session.new(@req)
   end
 
   # use this with the router to call action_name (:index, :show, :create...)
   def invoke_action(name)
+    self.send(name)
+    render(name) unless already_built_response?
+
+    nil
   end
 end

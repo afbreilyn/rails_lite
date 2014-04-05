@@ -7,7 +7,7 @@ class Session
   def initialize(req)
     @cookie = {}
     req.cookies.each do |cookie|
-      if cookie.name == "_rails_lite_app"
+      if cookie.name == "_rails_lite_app" && !cookie.nil?
         @cookie = JSON.parse(cookie.value)
       end
     end
